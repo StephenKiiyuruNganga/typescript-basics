@@ -1,0 +1,19 @@
+Core primitive types known by js and ts
+
+- number => 1, -1, 2.2
+- boolean => true, false
+- string => "hello"
+
+Key diff between ts and js
+
+- js uses "dynamic types" (which means they get resolved at runtime)
+- ts uses "static types" (which means they are set and fixed during development)
+
+What is type inference? 
+
+- A feature of ts whereby it is able to determine the type of a variable or constant based on the assigned value
+
+The core job/task of typescript is checking types and yelling at us if we are using them incorrectly
+
+JS has no compilation step but at runtime, you can check for certain types (e.g. in if conditions). 
+TS on the other hand allows you to catch certain errors during development since it checks types during compilation as well.
