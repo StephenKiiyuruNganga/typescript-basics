@@ -17,3 +17,17 @@ The core job/task of typescript is checking types and yelling at us if we are us
 
 JS has no compilation step but at runtime, you can check for certain types (e.g. in if conditions). 
 TS on the other hand allows you to catch certain errors during development since it checks types during compilation as well.
+
+Object types
+
+- Used to describe the type of an object
+- Eg 
+  const person: {
+    name: string;
+    age: number;
+  } 
+
+  Array types
+
+  let hobbies: string[]
+  hobbies = ["cycling", "swimming"]
