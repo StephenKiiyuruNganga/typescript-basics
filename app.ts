@@ -18,7 +18,7 @@ console.log(combine("Stephen", "007"))
 const combine_v2 = (
   input1: number | string,
   input2: number | string,
-  mode: "as-number" | "as-text"
+  mode: "as-number" | "as-text" // =======> Literal type
 ) => {
   if (
     typeof input1 === "number" &&
@@ -53,3 +53,23 @@ const combine_v3 = (
     return input1.toString() + input2.toString()
   }
 }
+
+/************* Return Types ***************/
+
+// you can specify the return type of a fn. In most cases, typescript will infere this
+
+const combine_v4 = (n1: number, n2: number): number => {
+  return n1 + n2
+}
+
+/************* Function Types ***************/
+
+// You can specify the type of function you want to pass to a variable / callback. I.e. specify the types for each expected argument and the return type
+
+// E.g say we want to call combine_v4 using a variable we create somewhere in our code...
+
+let combine_values: (a: number, b: number) => number
+
+combine_values = combine_v4
+
+console.log(combine_values(3, 4))
