@@ -31,3 +31,23 @@ Object types
 
   let hobbies: string[]
   hobbies = ["cycling", "swimming"]
+
+tsconfig File
+
+- Tells ts how to it should compile files
+- If you compile ts files to more mordern js versions e.g. es6, the output code is shorter and more consise
+- the "lib" option in compilerOptions is used to specify the libraries that ts should consider, E.g.
+    - if your writing code for the browser, your lib can look like this:
+        "lib": [
+          "dom",
+          "es6",
+          "dom.iterable",
+          "scripthost",
+        ]
+- by default, if you specify the "target": "es6", ts will include all the libs necessary for that such as the ones listed above
+- "sourceMap": true ====> creates a "bridge"/"pointer" that allows the browser to include the ts files in the list of files viewed in the 
+sources tab of chrome for example.
+  - this is very useful bcz you can then debug the ts files directly from the browser. 
+  - should be considered if working on larger projects
+- "outDir" ===> specify the folder in which ts should put the comiled js files
+- "rootDir" ====> specify the folder which contains the ts files that should be considered

@@ -4,7 +4,7 @@ function add(num1: number, num2: number) {
 
 const result = add(2, 8.9)
 
-console.log(result)
+console.log("add result is " + result)
 
 /************* tuple types ***************/
 
