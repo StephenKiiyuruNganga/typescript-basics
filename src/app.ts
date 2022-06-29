@@ -31,10 +31,12 @@ class Aeroplane implements CanFly, CanTransport {
   constructor(
     public type: string,
     public ticket_cost: number = 50,
+    // implement the properties of the interfaces:
     public speed: number,
     public passengers: number
   ) {}
 
+  // implement the methods from the interfaces:
   fly(distance: number) {
     return `Flew ${distance} km in ${(distance / this.speed).toFixed(
       0
