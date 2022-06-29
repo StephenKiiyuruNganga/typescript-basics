@@ -32,6 +32,7 @@ class Department {
 
 class ITDepartment extends Department {
   constructor(id: string, public project: string = "") {
+    // call the Parent's constructor and pass the expected arguments i.e. id and name
     super(id, "IT")
   }
 
@@ -68,7 +69,7 @@ define more logic on how to read/update other propeties in that class
 */
 
 class Animal {
-  constructor(public transmission: string, public habitat: string) {}
+  constructor(public taxonomy: string, public habitat: string) {}
 
   get my_habitat() {
     if (this.habitat) {
@@ -90,7 +91,7 @@ console.log(`My habitat ------> ${a1.my_habitat}`)
 
 // a1.my_habitat = ""
 
-/************* Static properties ***************/
+/************* Static properties/methods ***************/
 
 /*
 "static" keyword is used to create properties and methods that can be accessed
