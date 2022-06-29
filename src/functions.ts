@@ -70,6 +70,9 @@ const combine_v4 = (n1: number, n2: number): number => {
 
 let combine_values: (a: number, b: number) => number
 
+const say_hello = () => "Hello world"
+
 combine_values = combine_v4
+// combine_values = say_hello
 
 console.log(combine_values(3, 4))

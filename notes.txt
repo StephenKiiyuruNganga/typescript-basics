@@ -49,5 +49,5 @@ tsconfig File
 sources tab of chrome for example.
   - this is very useful bcz you can then debug the ts files directly from the browser. 
   - should be considered if working on larger projects
-- "outDir" ===> specify the folder in which ts should put the comiled js files
+- "outDir" ===> specify the folder in which ts should put the compiled js files
 - "rootDir" ====> specify the folder which contains the ts files that should be considered
