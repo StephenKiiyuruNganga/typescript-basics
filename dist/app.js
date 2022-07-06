@@ -1,29 +1,68 @@
 "use strict";
-/************* Interfaces ***************/
-class Aeroplane {
-    constructor(type, ticket_cost = 50, speed, passengers) {
-        this.type = type;
-        this.ticket_cost = ticket_cost;
-        this.speed = speed;
-        this.passengers = passengers;
+/************* Generic types ***************/
+/*
+a type that is connected with another type. That other type is flexible in terms of what specific type it could be
+
+Examples built in to Typescript:
+Array types - Array<string> or string[]
+Promise types - Promise<string>
+
+The idea of Generics is to store the type information (and hence get better typescript support) for the incoming data from complex classes or functions
+
+You can create generic functions and classes
+
+Often, generic types will be assigned the letter "T". If you have more than one, then the next will be "U" and so on...
+
+You can add constraints to your generic type using the keyword "extends". they can be built in types, custom, union etc
+Constraints allow you to narrow down the concrete types that may be used in a generic fn
+
+You can specify a constraint using "keyof" such that the param should be a key that exists in the passed object
+
+NB:
+When can "Generics" come in very handy?
+Generics help you create data structures that work together or wrap values of a broad variety of types (e.g. an array that can hold any type of data).
+*/
+// Generic fn example
+// const merge = <T, U> (objA: T, objB: U) => {
+//  return Object.assign(objA, objB)
+// }
+function merge(objA, objB) {
+    return Object.assign(objA, objB);
+}
+const merge_result = merge({ name: "Steve" }, { age: 29 });
+console.log(merge_result);
+function extractValue(obj, key) {
+    return "Value is " + obj[key];
+}
+extractValue({ age: 29, gender: "male" }, "gender");
+// Generic classes
+class DataStore {
+    constructor() {
+        this.store = [];
     }
-    fly(distance) {
-        return `Flew ${distance} km in ${(distance / this.speed).toFixed(0)} hours while carrying ${this.passengers} passengers`;
+    addData(item) {
+        this.store.push(item);
     }
-    get_revenue() {
-        return this.passengers * this.ticket_cost;
+    removeData(item) {
+        this.store.splice(this.store.indexOf(item), 1);
+    }
+    getData() {
+        return [...this.store];
     }
 }
-class Bird {
-    constructor(name, speed) {
-        this.name = name;
-        this.speed = speed;
-    }
-    fly(distance) {
-        return `Flew ${distance} km in ${(distance / this.speed).toFixed(0)} hours`;
-    }
+const names_store = new DataStore();
+names_store.addData("Steve");
+names_store.addData("Victoria");
+const scores_store = new DataStore();
+scores_store.addData(77);
+scores_store.addData(34);
+function create_vehicle(transmission, seats) {
+    // for some reason, we need to add the data like this...therefore:
+    let vehicle = {};
+    vehicle.transmission = transmission;
+    vehicle.seats = seats;
+    return vehicle;
 }
-const dove = new Bird("dove", 20);
-const jet = new Aeroplane("jumbo jet", 300, 885, 660);
-console.log(`${dove.name.toUpperCase()}\n${dove.fly(10000)}`);
-console.log(`${jet.type.toUpperCase()}\n${jet.fly(10000)}\nRevenue: $${jet.get_revenue()}`);
+// ReadOnly<>
+let names = ["Steve", "Nash"];
+// names.push("Kiiyuru") => not allowed

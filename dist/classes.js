@@ -27,6 +27,7 @@ class Department {
 }
 class ITDepartment extends Department {
     constructor(id, project = "") {
+        // call the Parent's constructor and pass the expected arguments i.e. id and name
         super(id, "IT");
         this.project = project;
     }
@@ -56,8 +57,8 @@ getters & setters are special propeties of a class that allow you to
 define more logic on how to read/update other propeties in that class
 */
 class Animal {
-    constructor(transmission, habitat) {
-        this.transmission = transmission;
+    constructor(taxonomy, habitat) {
+        this.taxonomy = taxonomy;
         this.habitat = habitat;
     }
     get my_habitat() {
@@ -76,7 +77,7 @@ class Animal {
 const a1 = new Animal("mammal", "water");
 console.log(`My habitat ------> ${a1.my_habitat}`);
 // a1.my_habitat = ""
-/************* Static properties ***************/
+/************* Static properties/methods ***************/
 /*
 "static" keyword is used to create properties and methods that can be accessed
 without having to create an instance of a class

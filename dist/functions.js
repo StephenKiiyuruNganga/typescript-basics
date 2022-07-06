@@ -43,5 +43,7 @@ const combine_v4 = (n1, n2) => {
 // You can specify the type of function you want to pass to a variable / callback. I.e. specify the types for each expected argument and the return type
 // E.g say we want to call combine_v4 using a variable we create somewhere in our code...
 let combine_values;
+const say_hello = () => "Hello world";
 combine_values = combine_v4;
+// combine_values = say_hello
 console.log(combine_values(3, 4));
