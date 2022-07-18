@@ -1,68 +1,45 @@
 "use strict";
-/************* Generic types ***************/
+/************* Decorators ***************/
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
 /*
-a type that is connected with another type. That other type is flexible in terms of what specific type it could be
+the idea of having special functions that help other programmers working with your code. Like some sort of tools they can use
 
-Examples built in to Typescript:
-Array types - Array<string> or string[]
-Promise types - Promise<string>
+symbol -> @
 
-The idea of Generics is to store the type information (and hence get better typescript support) for the incoming data from complex classes or functions
+if you add a decorator to a class, it gets the class constructor passed as an argument to it
+The decorator gets executed when your class is being registered, not when an instance of a class is created e.g. in line 27
 
-You can create generic functions and classes
+You can create decorators in 2 ways:
+1. as a standard function
+2. as a Decorator factory
 
-Often, generic types will be assigned the letter "T". If you have more than one, then the next will be "U" and so on...
-
-You can add constraints to your generic type using the keyword "extends". they can be built in types, custom, union etc
-Constraints allow you to narrow down the concrete types that may be used in a generic fn
-
-You can specify a constraint using "keyof" such that the param should be a key that exists in the passed object
-
-NB:
-When can "Generics" come in very handy?
-Generics help you create data structures that work together or wrap values of a broad variety of types (e.g. an array that can hold any type of data).
 */
-// Generic fn example
-// const merge = <T, U> (objA: T, objB: U) => {
-//  return Object.assign(objA, objB)
-// }
-function merge(objA, objB) {
-    return Object.assign(objA, objB);
+// decorator fn
+function Logger(constructor) {
+    console.log("Logger fn: Logging...");
+    console.log("Logger fn:", constructor);
 }
-const merge_result = merge({ name: "Steve" }, { age: 29 });
-console.log(merge_result);
-function extractValue(obj, key) {
-    return "Value is " + obj[key];
+// decorator factory
+function Logger_v2(display_string) {
+    return function (constructor) {
+        console.log(display_string);
+        console.log("Logger_v2 fn:", constructor);
+    };
 }
-extractValue({ age: 29, gender: "male" }, "gender");
-// Generic classes
-class DataStore {
+// @Logger
+let Person = class Person {
     constructor() {
-        this.store = [];
+        this.name = "Stephen";
+        console.log("Creating a person....");
     }
-    addData(item) {
-        this.store.push(item);
-    }
-    removeData(item) {
-        this.store.splice(this.store.indexOf(item), 1);
-    }
-    getData() {
-        return [...this.store];
-    }
-}
-const names_store = new DataStore();
-names_store.addData("Steve");
-names_store.addData("Victoria");
-const scores_store = new DataStore();
-scores_store.addData(77);
-scores_store.addData(34);
-function create_vehicle(transmission, seats) {
-    // for some reason, we need to add the data like this...therefore:
-    let vehicle = {};
-    vehicle.transmission = transmission;
-    vehicle.seats = seats;
-    return vehicle;
-}
-// ReadOnly<>
-let names = ["Steve", "Nash"];
-// names.push("Kiiyuru") => not allowed
+};
+Person = __decorate([
+    Logger_v2("I got customized")
+], Person);
+const p1 = new Person();
+console.log(p1);

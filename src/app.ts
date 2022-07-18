@@ -1,96 +1,103 @@
-/************* Generic types ***************/
+/************* Decorators ***************/
 
 /* 
-a type that is connected with another type. That other type is flexible in terms of what specific type it could be
+the idea of having special functions that help other programmers working with your code. Like some sort of tools they can use
 
-Examples built in to Typescript:
-Array types - Array<string> or string[]
-Promise types - Promise<string>
+symbol -> @
 
-The idea of Generics is to store the type information (and hence get better typescript support) for the incoming data from complex classes or functions
+if you add a decorator to a class, it gets the class constructor passed as an argument to it
+The decorator gets executed when your class defenition is being registered by javascript, not when an instance of a class is created e.g. in line 41
 
-You can create generic functions and classes
+You can create decorators in 2 ways:
+1. as a standard function
+2. as a Decorator factory
 
-Often, generic types will be assigned the letter "T". If you have more than one, then the next will be "U" and so on...
 
-You can add constraints to your generic type using the keyword "extends". they can be built in types, custom, union etc
-Constraints allow you to narrow down the concrete types that may be used in a generic fn
+Decorators can also be added to class properties, setters, getters and methods
 
-You can specify a constraint using "keyof" such that the param should be a key that exists in the passed object
-
-NB: 
-When can "Generics" come in very handy?
-Generics help you create data structures that work together or wrap values of a broad variety of types (e.g. an array that can hold any type of data).
+Decorators allow you do more setup work when your class is being defined/regiestered
 */
 
-// Generic fn example
-
-// const merge = <T, U> (objA: T, objB: U) => {
-//  return Object.assign(objA, objB)
-// }
-
-function merge<T extends object, U extends object>(objA: T, objB: U) {
-  return Object.assign(objA, objB)
+// decorator fn
+function Logger(constructor: Function) {
+  console.log("Logger fn: Logging...")
+  console.log("Logger fn:", constructor)
 }
 
-const merge_result = merge({ name: "Steve" }, { age: 29 })
-console.log(merge_result)
-
-function extractValue<T extends object, U extends keyof T>(obj: T, key: U) {
-  return "Value is " + obj[key]
-}
-
-extractValue({ age: 29, gender: "male" }, "gender")
-
-// Generic classes
-
-class DataStore<T extends string | number> {
-  private store: T[] = []
-
-  addData(item: T) {
-    this.store.push(item)
-  }
-
-  removeData(item: T) {
-    this.store.splice(this.store.indexOf(item), 1)
-  }
-
-  getData() {
-    return [...this.store]
+// decorator factory
+function Logger_v2(display_string: string) {
+  return function (constructor: Function) {
+    console.log(display_string)
+    console.log("Logger_v2 fn:", constructor)
   }
 }
 
-const names_store = new DataStore<string>()
-names_store.addData("Steve")
-names_store.addData("Victoria")
+// @Logger
+@Logger_v2("I got customized")
+class Person {
+  name = "Stephen"
 
-const scores_store = new DataStore<number>()
-scores_store.addData(77)
-scores_store.addData(34)
-
-/************* Other built-in Generic types aka Utility Types ***************/
-
-/*
-Docs => https://www.typescriptlang.org/docs/handbook/utility-types.html
-*/
-
-// Partial<>
-
-interface Drivable {
-  transmission: string
-  seats: number
+  constructor() {
+    console.log("Creating a person....")
+  }
 }
 
-function create_vehicle(transmission: string, seats: number): Drivable {
-  // for some reason, we need to add the data like this...therefore:
-  let vehicle: Partial<Drivable> = {}
-  vehicle.transmission = transmission
-  vehicle.seats = seats
+const p1 = new Person()
+console.log(p1)
 
-  return vehicle as Drivable
+// other places we can add decorators
+
+function Log(target: any, propertyName: string | Symbol) {
+  console.log("Property decorator")
+  console.log(target, propertyName)
 }
 
-// ReadOnly<>
+function Log2(target: any, name: string, descriptor: PropertyDescriptor) {
+  console.log("Accessor decorator")
+  console.log(target)
+  console.log(name)
+  console.log(descriptor)
+}
 
-let names: Readonly<string[]> = ["Steve", "Nash"]
-// names.push("Kiiyuru") => not allowed
+function Log3(
+  target: any,
+  name: string | Symbol,
+  descriptor: PropertyDescriptor
+) {
+  console.log("Method decorator")
+  console.log(target)
+  console.log(name)
+  console.log(descriptor)
+}
+
+function Log4(target: any, name: string | Symbol, position: number) {
+  console.log("Parameter decorator")
+  console.log(target)
+  console.log(name)
+  console.log(position)
+}
+
+class Product {
+  @Log
+  title: string
+  private _price: number
+
+  @Log2
+  set price(val: number) {
+    if (val > 0) {
+      this._price = val
+    } else {
+      throw new Error("Invalid price - should be positive")
+    }
+  }
+
+  constructor(t: string, p: number) {
+    this.title = t
+    this._price = p
+  }
+
+  @Log3
+  getPriceWithTax(@Log4 tax: number) {
+    return this._price * (1 + tax)
+  }
+}
